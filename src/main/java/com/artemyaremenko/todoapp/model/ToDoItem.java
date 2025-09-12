@@ -3,11 +3,15 @@ package com.artemyaremenko.todoapp.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
+@EqualsAndHashCode
 @Entity
 public class ToDoItem {
 
@@ -19,4 +23,7 @@ public class ToDoItem {
     public ToDoItem() {
     }
 
+    public ToDoItem(String title) {
+        this.title = title;
+    }
 }

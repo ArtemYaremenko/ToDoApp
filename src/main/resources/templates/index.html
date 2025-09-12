@@ -5,7 +5,9 @@
     <title>Список дел</title>
 </head>
 <body>
-<h1>Список дел</h1>
-<h2 th:text="${data}"></h2>
+    <h1>Список дел</h1>
+    <ul>
+        <li th:each="item : ${allToDos}"><span th:text="${item.title}"></span></li>
+    </ul>
 </body>
 </html>
