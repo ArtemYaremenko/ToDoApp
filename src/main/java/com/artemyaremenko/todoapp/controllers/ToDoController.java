@@ -5,15 +5,14 @@ import com.artemyaremenko.todoapp.repository.ToDoItemRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
-public class ToDoController implements CommandLineRunner {
+public class ToDoController {
 
     private final ToDoItemRepository toDoItemRepository;
 
@@ -47,9 +46,14 @@ public class ToDoController implements CommandLineRunner {
         return "redirect:/";
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        toDoItemRepository.save(new ToDoItem("Item 1"));
-        toDoItemRepository.save(new ToDoItem("Item 2"));
+    @PostMapping("/search")
+    public String searchToDo(@RequestParam("searchTerm") String searchTerm, Model model) {
+        List<ToDoItem> searchResults = toDoItemRepository.findAll().stream()
+                        .filter(toDoItem -> toDoItem.getTitle().toLowerCase().contains(searchTerm.toLowerCase()))
+                        .toList();
+        model.addAttribute("allToDos", searchResults);
+        model.addAttribute("newToDo", new ToDoItem());
+        model.addAttribute("searchTerm", searchTerm);
+        return "index";
     }
 }
